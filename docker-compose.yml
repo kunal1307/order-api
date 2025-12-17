@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: order-postgres
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: orders
+      POSTGRES_PASSWORD: orders
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  order-api:
+    build: .
+    container_name: order-api
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orders
+      SPRING_DATASOURCE_USERNAME: orders
+      SPRING_DATASOURCE_PASSWORD: orders
+
+      INTEGRATION_REQRES_BASE_URL: https://reqres.in/api
+      INTEGRATION_REQRES_API_KEY: ${REQRES_API_KEY:-}
+      INTEGRATION_REQRES_TIMEOUT_MS: 3000
+
+    restart: unless-stopped
+
+volumes:
+  pgdata:

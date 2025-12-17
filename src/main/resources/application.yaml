@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: order-api
+
+  web:
+    resources:
+      mime:
+        types:
+          yaml: text/yaml
+          yml: text/yaml
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    url: /openapi/openapi.yaml
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+
+integration:
+  reqres:
+    base-url: ${INTEGRATION_REQRES_BASE_URL:https://reqres.in/api}
+    api-key: ${INTEGRATION_REQRES_API_KEY:}
+    timeout-ms: ${INTEGRATION_REQRES_TIMEOUT_MS:3000}
+
+logging:
+  level:
+    org.flywaydb: INFO

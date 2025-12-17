@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "918d7a3a-98f1-445b-b5b2-6967cb4e1876",
+		"name": "VZ-Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "41969062"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"201 Created\", () => pm.response.to.have.status(201));",
+							"const json = pm.response.json();",
+							"pm.expect(json.orderId).to.exist;",
+							"pm.collectionVariables.set(\"lastOrderId\", json.orderId);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"productId\": \"Iphone 17 pro\",\n  \"email\": \"emma.wong@reqres.in\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order- Duplicate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"409 Conflict\", () => pm.response.to.have.status(409));",
+							"pm.test(\"Duplicate code\", () => pm.expect(pm.response.json().code).to.eql(\"DUPLICATE_ORDER\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"productId\": \"Iphone 17\",\n  \"email\": \"emma.wong@reqres.in\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - Email not found",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"productId\": \"Iphone 17\",\n  \"email\": \"doesnotexist@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order - invalid email format",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"productId\": \"Iphone 17\",\n  \"email\": \"invalid email\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 OK\", () => pm.response.to.have.status(200));",
+							"pm.test(\"Is array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/orders?email=george.bluth@reqres.in",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "george.bluth@reqres.in"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders-Missing email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"productId\": \"Iphone 17\",\n  \"email\": \"doestnotexist@reqres.in\"\n}"
+				},
+				"url": "{{baseUrl}}/api/orders"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "lastOrderId",
+			"value": ""
+		}
+	]
+}
