@@ -1,4 +1,4 @@
-# VodafoneZiggo Order API (Assignment)
+# VZ Order API (Assignment)
 
 Spring Boot microservice that creates and retrieves customer orders.
 Email validation is performed against the external ReqRes Users API.
