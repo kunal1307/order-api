@@ -31,8 +31,6 @@ OpenAPI contract:
 - Java 21
 - Maven
 - PostgreSQL running locally
-- Docker Desktop
-- Docker Compose
 
 ### Database setup
 Create a PostgreSQL database and user (example):
@@ -64,9 +62,15 @@ SPRING_DATASOURCE_PASSWORD='<PASSWORD>' \
 INTEGRATION_REQRES_API_KEY='REQRES_APIKEY' \
 mvn clean spring-boot:run`
 
-for varifying you need to check the postgres desktop app and run the query
+for verifying you need to check the postgres desktop app and run the query
 
 _SELECT * FROM orders;_
+
+
+## How to run with Docker
+### Prerequisites
+- Docker Desktop
+- Docker Compose
 
 **Docker**
 
@@ -80,6 +84,7 @@ Run the below command in you project folder to remove the old image if any
 
 `docker compose down -v`
 
+### Start the app
 execute below command finally to make you application up
 
 `REQRES_API_KEY=<your API KEY> docker compose up --build`
@@ -115,9 +120,3 @@ Prerequisite: Docker Desktop running
 `mvn -Dtest=OrderApiIntegrationTest clean test surefire-report:report`
 
 If you get a version mismatch issue look at this of [stackoverflow page](https://stackoverflow.com/questions/79817033/sudden-docker-error-about-client-api-version) for the fix. I used it for my fix 
-
-
-
-####Note :
-
-AI's help is taken for getting the edge cases for unit test cases.

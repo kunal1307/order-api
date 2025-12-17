@@ -197,3 +197,5 @@ The system behaves deterministically under failure, concurrency, and external de
 
 ---
 
+### Step-by-step instruction to run the application mentioned [here](README.md)
+
